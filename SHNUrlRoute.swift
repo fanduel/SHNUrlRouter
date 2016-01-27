@@ -25,8 +25,7 @@
 
 import Foundation
 
-public typealias SHNUrlRouteQuickHandler = ([String: String]) -> Void
-public typealias SHNUrlRouteHandler = (NSURL, SHNUrlRoute, [String: String]) -> Void
+public typealias SHNUrlRouteHandler = (NSURL, SHNUrlRoute, [String: String]) -> RouteResult!
 
 public class SHNUrlRoute: CustomDebugStringConvertible {
 

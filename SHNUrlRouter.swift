@@ -52,31 +52,7 @@ public class SHNUrlRouter {
 		self.aliases[alias] = pattern
 	}
 
-	/**
-	Register a route pattern
 
-	- parameter pattern: Route pattern
-	- parameter handler: Quick handler to call when route is dispatched
-
-	- returns: New route instance for the pattern
-	*/
-	public func register(routePattern: String, handler: SHNUrlRouteQuickHandler) -> SHNUrlRoute {
-		return self.register([routePattern], handler: handler)
-	}
-
-	/**
-	Register route patterns
-
-	- parameter pattern: Route patterns
-	- parameter handler: Quick handler to call when route is dispatched
-
-	- returns: New route instance for the patterns
-	*/
-	public func register(routePatterns: [String], handler: SHNUrlRouteQuickHandler) -> SHNUrlRoute {
-		return self.registerFull(routePatterns) { (url, route, parameters) in
-			handler(parameters)
-		}
-	}
 
 	/**
 	Register a route pattern with full handler
@@ -86,8 +62,8 @@ public class SHNUrlRouter {
 
 	- returns: New route instance for the pattern
 	*/
-	public func registerFull(routePattern: String, handler: SHNUrlRouteHandler) -> SHNUrlRoute {
-		return self.registerFull([routePattern], handler: handler)
+	public func register(routePattern: String, handler: SHNUrlRouteHandler) -> SHNUrlRoute {
+		return self.register([routePattern], handler: handler)
 	}
 
 	/**
@@ -98,7 +74,7 @@ public class SHNUrlRouter {
 
 	- returns: New route instance for the patterns
 	*/
-	public func registerFull(routePatterns: [String], handler: SHNUrlRouteHandler) -> SHNUrlRoute {
+	public func register(routePatterns: [String], handler: SHNUrlRouteHandler) -> SHNUrlRoute {
 		assert(routePatterns.count > 0, "Route patterns must contain at least one pattern")
 
 		let route = SHNUrlRoute(router: self, pattern: routePatterns.first!, handler: handler)
@@ -218,11 +194,11 @@ public class SHNUrlRouter {
 
 	- returns: True if dispatched, false if unable to dispatch which occurs if url isn’t routable
 	*/
-	public func dispatch(url: String) -> Bool {
+	public func dispatch(url: String) -> RouteResult {
 		if let url = NSURL(string: url) {
 			return self.dispatch(url)
 		} else {
-			return false
+			return RouteResult.Failed
 		}
 	}
 
@@ -233,12 +209,14 @@ public class SHNUrlRouter {
 
 	- returns: True if dispatched, false if unable to dispatch which occurs if url isn’t routable
 	*/
-	public func dispatch(url: NSURL) -> Bool {
+	public func dispatch(url: NSURL) -> RouteResult {
 		if let routed = self.route(url) {
-			routed.route.handler(url, routed.route, routed.parameters)
-			return true
+			if let output = routed.route.handler(url, routed.route, routed.parameters) {
+                return output
+			}
+			return RouteResult.Succeeded
 		} else {
-			return false
+			return RouteResult.Failed
 		}
 	}
 
