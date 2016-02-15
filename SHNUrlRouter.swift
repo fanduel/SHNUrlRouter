@@ -84,7 +84,8 @@ public class SHNUrlRouter {
 
 	internal func register(routePatterns: [String], route: SHNUrlRoute) {
 		for routePattern in routePatterns {
-			self.patterns.append(PatternRoutePair(self.compilePattern(routePattern), route))
+            let matchingPatternRoute = SHNUrlRoute(router: self, pattern: routePattern, handler: route.handler)
+			self.patterns.append(PatternRoutePair(self.compilePattern(routePattern), matchingPatternRoute))
 		}
 	}
 
