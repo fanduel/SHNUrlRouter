@@ -1,7 +1,7 @@
 import Foundation
 
 public enum RouteResult {
-    case Failed
-    case Succeeded
-    case Output(result: Any)
+    case failed
+    case succeeded
+    case output(result: Any)
 }

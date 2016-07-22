@@ -26,19 +26,19 @@
 import Foundation
 
 private typealias PatternRoutePair = (CompiledPattern, SHNUrlRoute)
-private typealias CompiledPattern = (NSRegularExpression, [String])
+private typealias CompiledPattern = (RegularExpression, [String])
 
-private func regexReplace(expression: NSRegularExpression, replacement: String, target: NSMutableString) {
+private func regexReplace(expression: RegularExpression, replacement: String, target: NSMutableString) {
 	expression.replaceMatchesInString(target, options: [], range: NSMakeRange(0, target.length), withTemplate: replacement)
 }
 
 public class SHNUrlRouter {
 	private var patterns = Array<PatternRoutePair>()
 	private var aliases = Dictionary<String, String>()
-	private let unescapePattern = try! NSRegularExpression(pattern: "\\\\([\\{\\}\\?])", options: [])
-	private let parameterPattern = try! NSRegularExpression(pattern: "\\{([a-zA-Z0-9_\\-]+)\\}", options: [])
-	private let optionalParameterPattern = try! NSRegularExpression(pattern: "(\\\\\\/)?\\{([a-zA-Z0-9_\\-]+)\\?\\}", options: [])
-	private let slashCharacterSet = NSCharacterSet(charactersInString: "/")
+	private let unescapePattern = try! RegularExpression(pattern: "\\\\([\\{\\}\\?])", options: [])
+	private let parameterPattern = try! RegularExpression(pattern: "\\{([a-zA-Z0-9_\\-]+)\\}", options: [])
+	private let optionalParameterPattern = try! RegularExpression(pattern: "(\\\\\\/)?\\{([a-zA-Z0-9_\\-]+)\\?\\}", options: [])
+	private let slashCharacterSet = CharacterSet(charactersInString: "/")
 
 	public init() { }
 
@@ -90,7 +90,7 @@ public class SHNUrlRouter {
 	}
 
 	private func normalizePath(path: String?) -> String {
-		if let path = path?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) where path.characters.count > 0 {
+		if let path = path?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), path.characters.count > 0 {
 			return "/" + path.stringByTrimmingCharactersInSet(self.slashCharacterSet)
 		} else {
 			return "/"
@@ -111,7 +111,7 @@ public class SHNUrlRouter {
 		var captures = Array<String>()
 
 		self.parameterPattern.enumerateMatchesInString(String(compiled), options: [], range: NSMakeRange(0, compiled.length)) { (match, _, _) in
-			if let match = match where match.numberOfRanges > 1 {
+			if let match = match, match.numberOfRanges > 1 {
 				let range = match.rangeAtIndex(1)
 
 				if range.location != NSNotFound {
