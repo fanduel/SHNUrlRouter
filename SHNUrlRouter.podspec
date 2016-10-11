@@ -1,14 +1,13 @@
 Pod::Spec.new do |s|
 	s.name         = "SHNUrlRouter"
-	s.version      = "1.0.0"
+	s.version      = "2.0.0"
 	s.summary      = "Simple Router for Swift"
-	s.homepage     = "https://github.com/shnhrrsn/SHNUrlRouter"
+	s.homepage     = "https://github.com/fanduel/SHNUrlRouter"
 	s.license      = "MIT"
 
 	s.author       = "Shaun Harrison"
-	s.social_media_url   = "http://twitter.com/shnhrrsn"
 
-	s.platform     = :ios, "8.0"
+	s.platform     = :ios, "9.0"
 
 	s.source       = { :git => "https://github.com/fanduel/SHNUrlRouter.git", :tag => s.version }
 
