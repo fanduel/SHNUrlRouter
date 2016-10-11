@@ -62,7 +62,7 @@ public class SHNUrlRouter {
      
      - returns: New route instance for the pattern
      */
-    public func register(routePattern: String, handler: @escaping SHNUrlRouteHandler) -> SHNUrlRoute {
+    public func register(_ routePattern: String, _ handler: @escaping SHNUrlRouteHandler) -> SHNUrlRoute {
         return self.register(routePatterns: [routePattern], handler: handler)
     }
     
@@ -143,9 +143,9 @@ public class SHNUrlRouter {
      
      - returns: Instance of SHNUrlRouted with binded parameters if matched, nil if route isn’t supported
      */
-    public func route(url: String) -> SHNUrlRouted? {
-        if let url = NSURL(string: url) {
-            return self.route(url: url)
+    public func route(for url: String) -> SHNUrlRouted? {
+        if let url = URL(string: url) {
+            return self.route(for: url)
         } else {
             return nil
         }
@@ -158,7 +158,7 @@ public class SHNUrlRouter {
      
      - returns: Instance of SHNUrlRouted with binded parameters if matched, nil if route isn’t supported
      */
-    public func route(url: NSURL) -> SHNUrlRouted? {
+    public func route(for url: URL) -> SHNUrlRouted? {
         let path = self.normalizePath(path: url.path)
         let range = NSMakeRange(0, path.characters.count)
         
@@ -195,9 +195,9 @@ public class SHNUrlRouter {
      
      - returns: True if dispatched, false if unable to dispatch which occurs if url isn’t routable
      */
-    public func dispatch(url: String) -> RouteResult {
-        if let url = NSURL(string: url) {
-            return self.dispatch(url: url)
+    public func dispatch(for url: String) -> RouteResult {
+        if let url = URL(string: url) {
+            return self.dispatch(for: url)
         } else {
             return RouteResult.failed
         }
@@ -210,8 +210,8 @@ public class SHNUrlRouter {
      
      - returns: True if dispatched, false if unable to dispatch which occurs if url isn’t routable
      */
-    public func dispatch(url: NSURL) -> RouteResult {
-        if let routed = self.route(url: url) {
+    public func dispatch(for url: URL) -> RouteResult {
+        if let routed = self.route(for: url) {
             if let output = routed.route.handler(url, routed.route, routed.parameters) {
                 return output
             }

@@ -25,49 +25,49 @@
 
 import Foundation
 
-public typealias SHNUrlRouteHandler = (NSURL, SHNUrlRoute, [String: String]) -> RouteResult!
+public typealias SHNUrlRouteHandler = (URL, SHNUrlRoute, [String: String]) -> RouteResult!
 
 public class SHNUrlRoute: CustomDebugStringConvertible {
-
-	private weak var router: SHNUrlRouter?
-
-	/** Original route pattern this route was created with */
-	public let pattern: String
-
-	/** Route handler to use during dispatching */
-	public let handler: SHNUrlRouteHandler
-
-	public var debugDescription: String {
-		return self.pattern
-	}
-
-	public init(router: SHNUrlRouter, pattern: String, handler: @escaping SHNUrlRouteHandler) {
-		self.pattern = pattern
-		self.router = router
-		self.handler = handler
-	}
-
-	/**
-	Add a route pattern alias to this route
-
-	- parameter pattern: Route pattern
-
-	- returns: Current route instance for chaining
-	*/
-	public func addAlias(pattern: String) -> SHNUrlRoute {
+    
+    private weak var router: SHNUrlRouter?
+    
+    /** Original route pattern this route was created with */
+    public let pattern: String
+    
+    /** Route handler to use during dispatching */
+    public let handler: SHNUrlRouteHandler
+    
+    public var debugDescription: String {
+        return self.pattern
+    }
+    
+    public init(router: SHNUrlRouter, pattern: String, handler: @escaping SHNUrlRouteHandler) {
+        self.pattern = pattern
+        self.router = router
+        self.handler = handler
+    }
+    
+    /**
+     Add a route pattern alias to this route
+     
+     - parameter pattern: Route pattern
+     
+     - returns: Current route instance for chaining
+     */
+    public func addAlias(pattern: String) -> SHNUrlRoute {
         return self.addAliases(patterns: [pattern])
-	}
-
-	/**
-	Add route pattern aliases to this route
-
-	- parameter patterns: Route patterns
-
-	- returns: Current route instance for chaining
-	*/
-	public func addAliases(patterns: [String]) -> SHNUrlRoute {
+    }
+    
+    /**
+     Add route pattern aliases to this route
+     
+     - parameter patterns: Route patterns
+     
+     - returns: Current route instance for chaining
+     */
+    public func addAliases(patterns: [String]) -> SHNUrlRoute {
         self.router?.register(routePatterns: patterns, route: self)
-		return self
-	}
-
+        return self
+    }
+    
 }
