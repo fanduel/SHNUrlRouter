@@ -41,7 +41,7 @@ public class SHNUrlRoute: CustomDebugStringConvertible {
 		return self.pattern
 	}
 
-	public init(router: SHNUrlRouter, pattern: String, handler: SHNUrlRouteHandler) {
+	public init(router: SHNUrlRouter, pattern: String, handler: @escaping SHNUrlRouteHandler) {
 		self.pattern = pattern
 		self.router = router
 		self.handler = handler
@@ -55,7 +55,7 @@ public class SHNUrlRoute: CustomDebugStringConvertible {
 	- returns: Current route instance for chaining
 	*/
 	public func addAlias(pattern: String) -> SHNUrlRoute {
-		return self.addAliases([pattern])
+        return self.addAliases(patterns: [pattern])
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class SHNUrlRoute: CustomDebugStringConvertible {
 	- returns: Current route instance for chaining
 	*/
 	public func addAliases(patterns: [String]) -> SHNUrlRoute {
-		self.router?.register(patterns, route: self)
+        self.router?.register(routePatterns: patterns, route: self)
 		return self
 	}
 
