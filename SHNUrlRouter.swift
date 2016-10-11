@@ -199,7 +199,7 @@ public class SHNUrlRouter {
 		if let url = NSURL(string: url) {
 			return self.dispatch(url)
 		} else {
-			return RouteResult.Failed
+			return RouteResult.failed
 		}
 	}
 
@@ -215,9 +215,9 @@ public class SHNUrlRouter {
 			if let output = routed.route.handler(url, routed.route, routed.parameters) {
                 return output
 			}
-			return RouteResult.Succeeded
+			return RouteResult.succeeded
 		} else {
-			return RouteResult.Failed
+			return RouteResult.failed
 		}
 	}
 
