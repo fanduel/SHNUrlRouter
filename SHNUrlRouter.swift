@@ -112,7 +112,7 @@ public class SHNUrlRouter {
         
         self.parameterPattern.enumerateMatches(in: String(compiled), options: [], range: NSMakeRange(0, compiled.length)) { (match, _, _) in
             if let match = match, match.numberOfRanges > 1 {
-                let range = match.rangeAt(1)
+                let range = match.range(at: 1)
                 
                 if range.location != NSNotFound {
                     captures.append(compiled.substring(with: range))
@@ -169,7 +169,7 @@ public class SHNUrlRouter {
                 
                 if parameterKeys.count > 0 {
                     for i in 1 ..< match.numberOfRanges {
-                        let range = match.rangeAt(i)
+                        let range = match.range(at: i)
                         
                         if range.location != NSNotFound {
                             let value = (path as NSString).substring(with: range)

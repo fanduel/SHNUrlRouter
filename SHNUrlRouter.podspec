@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name         = "SHNUrlRouter"
-	s.version      = "2.0.0"
+	s.version      = "2.0.1"
 	s.summary      = "Simple Router for Swift"
 	s.homepage     = "https://github.com/fanduel/SHNUrlRouter"
 	s.license      = "MIT"
